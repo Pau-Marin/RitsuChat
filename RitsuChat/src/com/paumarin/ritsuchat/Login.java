@@ -5,18 +5,34 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
+	private JTextField txtName;
 
 	public Login() {
+		setResizable(false);
+		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setSize(300,380);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		txtName = new JTextField();
+		txtName.setBounds(67, 50, 165, 28);
+		contentPane.add(txtName);
+		txtName.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Name:");
+		lblNewLabel.setBounds(127, 34, 45, 16);
+		contentPane.add(lblNewLabel);
 	}
 
 	public static void main(String[] args) {
@@ -31,5 +47,4 @@ public class Login extends JFrame {
 			}
 		});
 	}
-
 }
