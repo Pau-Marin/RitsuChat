@@ -1,6 +1,8 @@
 package com.paumarin.ritsuchat;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -91,7 +91,7 @@ public class Login extends JFrame {
 
 	private void login(String name, String address, int port) {
 		dispose();
-		System.out.println(name + ", " + address + ", " + port);
+		new Client(name, address, port);
 	}
 
 	public static void main(String[] args) {
