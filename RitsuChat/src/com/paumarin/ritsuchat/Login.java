@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -16,9 +18,9 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtName;
 	private JTextField txtAddress;
-	private JLabel lblAddress;
-	private JLabel lblPort;
 	private JTextField txtPort;
+	private JLabel lblIpAddress;
+	private JLabel lblPort;
 	private JLabel lblAddressDesc;
 	private JLabel lblPortDesc;
 
@@ -53,9 +55,9 @@ public class Login extends JFrame {
 		contentPane.add(txtAddress);
 		txtAddress.setColumns(10);
 
-		lblAddress = new JLabel("IP Address:");
-		lblAddress.setBounds(103, 96, 77, 16);
-		contentPane.add(lblAddress);
+		lblIpAddress = new JLabel("IP Address:");
+		lblIpAddress.setBounds(103, 96, 77, 16);
+		contentPane.add(lblIpAddress);
 
 		txtPort = new JTextField();
 		txtPort.setColumns(10);
@@ -75,8 +77,21 @@ public class Login extends JFrame {
 		contentPane.add(lblPortDesc);
 
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = txtName.getText();
+				String address = txtAddress.getText();
+				int port = Integer.parseInt(txtPort.getText());
+				login(name, address, port);
+			}
+		});
 		btnLogin.setBounds(83, 287, 117, 29);
 		contentPane.add(btnLogin);
+	}
+
+	private void login(String name, String address, int port) {
+		dispose();
+		System.out.println(name + ", " + address + ", " + port);
 	}
 
 	public static void main(String[] args) {
