@@ -37,6 +37,8 @@ public class Client extends JFrame {
 	private DatagramSocket socket;
 	private InetAddress ip;
 
+	private Thread send;
+
 	public Client(String name, String address, int port) {
 		setTitle("RitsuChat Client");
 		this.name = name;
@@ -78,6 +80,15 @@ public class Client extends JFrame {
 
 		String message = new String(packet.getData());
 		return message;
+	}
+
+	private void send(byte[] data) {
+		send = new Thread("Send") {
+			public void run() {
+				DatagramPacket packer = new DatagramPacket(data, data.length, ip, port);
+			}
+		};
+		send.start();
 	}
 
 	private void createWindow() {
