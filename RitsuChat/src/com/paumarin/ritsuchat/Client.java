@@ -2,15 +2,19 @@ package com.paumarin.ritsuchat;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.Insets;
-import javax.swing.JTextField;
 
 public class Client extends JFrame {
 
@@ -64,6 +68,13 @@ public class Client extends JFrame {
 		contentPane.add(txtrHistory, gbc_txtrHistory);
 
 		txtMessage = new JTextField();
+		txtMessage.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					send(txtMessage.getText());
+				}
+			}
+		});
 		GridBagConstraints gbc_txtMessage = new GridBagConstraints();
 		gbc_txtMessage.insets = new Insets(0, 0, 0, 5);
 		gbc_txtMessage.fill = GridBagConstraints.HORIZONTAL;
@@ -73,6 +84,11 @@ public class Client extends JFrame {
 		txtMessage.setColumns(10);
 
 		JButton btnSend = new JButton("Send");
+		btnSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				send(txtMessage.getText());
+			}
+		});
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
 		gbc_btnSend.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSend.gridx = 2;
@@ -82,6 +98,13 @@ public class Client extends JFrame {
 		setVisible(true);
 
 		txtMessage.requestFocusInWindow();
+	}
+
+	private void send(String message) {
+		if (message.equals("")) return;
+		message = name + ": " + message;
+		console(message);
+		txtMessage.setText("");
 	}
 
 	public void console(String message) {
