@@ -52,7 +52,7 @@ public class Client extends JFrame {
 
 		createWindow();
 		console("Attempting a connection to " + address + ":" + port + ", user: " + name);
-		String connection = name + " connected from " + address + ":" + port;
+		String connection = "/c/" + name;// name + " connected from " + address + ":" + port;
 		send(connection.getBytes());
 	}
 
