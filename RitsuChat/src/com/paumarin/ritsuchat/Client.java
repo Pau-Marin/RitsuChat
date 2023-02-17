@@ -14,6 +14,7 @@ public class Client {
 
 	private String name, address;
 	private int port;
+	private int ID;
 	private InetAddress ip;
 	private Thread send;
 
@@ -21,18 +22,6 @@ public class Client {
 		this.name = name;
 		this.address = address;
 		this.port = port;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public int getPort() {
-		return port;
 	}
 
 	public boolean openConnection(String address) {
@@ -60,6 +49,7 @@ public class Client {
 		}
 
 		String message = new String(packet.getData());
+
 		return message;
 	}
 
@@ -75,6 +65,26 @@ public class Client {
 			}
 		};
 		send.start();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setID(int ID) {
+		this.ID = ID;
+	}
+
+	public int getID() {
+		return ID;
 	}
 
 }
