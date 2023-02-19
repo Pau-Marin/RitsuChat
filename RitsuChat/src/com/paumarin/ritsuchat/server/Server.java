@@ -93,6 +93,7 @@ public class Server implements Runnable {
 
 	private void process(DatagramPacket packet) {
 		String string = new String(packet.getData());
+		System.out.println(string);
 		if (string.startsWith("/c/")) {
 			// UUID id = UUID.randomUUID();
 			int id = UniqueIdentifier.getIdentifier();
@@ -103,9 +104,30 @@ public class Server implements Runnable {
 			send(ID, packet.getAddress(), packet.getPort());
 		} else if (string.startsWith("/m/")) {
 			sendToAll(string);
+		} else if (string.startsWith("/d/")) {
+			String id = string.split("/d/|/e/")[1];
+			disconnect(Integer.parseInt(id), true);
 		} else {
 			System.out.println(string);
 		}
+	}
+
+	private void disconnect(int id, boolean status) {
+		ServerClient c = null;
+		for (int i = 0; i < clients.size(); i++) {
+			if (clients.get(i).getID() == id) {
+				c = clients.get(i);
+				clients.remove(i);
+				break;
+			}
+		}
+		String message = "";
+		if (status) {
+			message = "Client " + c.name.trim() + " (" + c.getID() + ") @ " + c.address.toString() + ":" + c.port + " disconnected.";
+		} else {
+			message = "Client " + c.name.trim() + " (" + c.getID() + ") @ " + c.address.toString() + ":" + c.port + " timed out.";
+		}
+		System.out.println(message);
 	}
 
 }

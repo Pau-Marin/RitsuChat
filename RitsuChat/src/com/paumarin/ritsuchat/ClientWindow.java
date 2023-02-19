@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -90,7 +92,7 @@ public class ClientWindow extends JFrame implements Runnable {
 		txtMessage.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					send(txtMessage.getText());
+					send(txtMessage.getText(), true);
 				}
 			}
 		});
@@ -106,7 +108,7 @@ public class ClientWindow extends JFrame implements Runnable {
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				send(txtMessage.getText());
+				send(txtMessage.getText(), true);
 			}
 		});
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
@@ -114,6 +116,15 @@ public class ClientWindow extends JFrame implements Runnable {
 		gbc_btnSend.gridx = 2;
 		gbc_btnSend.gridy = 2;
 		contentPane.add(btnSend, gbc_btnSend);
+
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				String disconnect = "/d/" + client.getID() + "/e/";
+				send(disconnect, false);
+				running = false;
+				client.close();
+			}
+		});
 
 		setVisible(true);
 
@@ -124,10 +135,13 @@ public class ClientWindow extends JFrame implements Runnable {
 		listen();
 	}
 
-	private void send(String message) {
+	private void send(String message, boolean text) {
+		System.out.println("text = " + text + ", message = " + message);
 		if (message.equals("")) return;
-		message = client.getName() + ": " + message;
-		message = "/m/" + message;
+		if (text) {
+			message = client.getName() + ": " + message;
+			message = "/m/" + message;
+		}
 		client.send(message.getBytes());
 		txtMessage.setText("");
 	}
