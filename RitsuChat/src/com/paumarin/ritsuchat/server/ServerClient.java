@@ -8,7 +8,7 @@ public class ServerClient {
 	public InetAddress address;
 	public int port;
 	private final int ID;
-	public int attemp = 0;
+	public int attempt = 0;
 
 	public ServerClient(String name, InetAddress address, int port, final int ID) {
 		this.name = name;
