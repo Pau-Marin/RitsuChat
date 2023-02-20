@@ -94,8 +94,8 @@ public class Server implements Runnable {
 				System.out.println("Unknown command.");
 				printHelp();
 			}
-
 		}
+		scanner.close();
 	}
 
 	private void printHelp() {
