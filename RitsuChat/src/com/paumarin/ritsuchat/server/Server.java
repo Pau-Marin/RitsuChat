@@ -47,6 +47,8 @@ public class Server implements Runnable {
 			}
 			text = text.substring(1);
 			if (text.equals("raw")) {
+				if (raw) System.out.println("Raw mode off.");
+				else System.out.println("Raw mode on.");
 				raw = !raw;
 			} else if (text.equals("clients")) {
 				System.out.println("Clients:");
@@ -84,9 +86,27 @@ public class Server implements Runnable {
 						}
 					}
 				}
+			} else if (text.equals("help")) {
+				printHelp();
+			} else if (text.equals("quit")) {
+				quit();
+			} else {
+				System.out.println("Unknown command.");
+				printHelp();
 			}
 
 		}
+	}
+
+	private void printHelp() {
+		System.out.println("Here is a list of all available commands:");
+		System.out.println("==============================");
+		System.out.println("/raw - enables raw mode.");
+		System.out.println("/cloents - shows all connected clients.");
+		System.out.println("/kick [users ID or username] - kicks a user.");
+		System.out.println("/help - shows this help message.");
+		System.out.println("/quit - shuts down the server.");
+
 	}
 
 	private void manageClients() {
@@ -138,6 +158,7 @@ public class Server implements Runnable {
 					DatagramPacket packet = new DatagramPacket(data, data.length);
 					try {
 						socket.receive(packet);
+					} catch (SocketException e) {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -199,6 +220,14 @@ public class Server implements Runnable {
 		} else {
 			System.out.println(string);
 		}
+	}
+
+	private void quit() {
+		for (int i = 0; i < clients.size(); i++) {
+			disconnect(clients.get(i).getID(), true);
+		}
+		running = false;
+		socket.close();
 	}
 
 	private void disconnect(int id, boolean status) {
